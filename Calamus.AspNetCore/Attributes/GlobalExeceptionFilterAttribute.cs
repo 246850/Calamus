@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using System.Text;
 
@@ -49,8 +50,12 @@ namespace Calamus.AspNetCore.Attributes
 
                 if (!_hostEnvironment.IsDevelopment())
                 {
+                    //context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     context.ExceptionHandled = true;
-                    context.Result = new JsonResult(CodeResult.InternalServerError);
+                    context.Result = new JsonResult(CodeResult.InternalServerError)
+                    {
+                        StatusCode = (int)HttpStatusCode.InternalServerError
+                    };
                 }
                 //context.Result = new JsonResult(new { TargetSite = exception.TargetSite.ToString(), Source = exception.Source, StackTrace = $"{exception.GetType().FullName}：{exception.StackTrace}" }.ToError(DefaultCode.ServerError, exception.Message));
             }
