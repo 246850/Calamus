@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="github:https://github.com/246850;wechat:1500212201;qq:390915549" />
+    <title>@Model.ClassName - Coding Intelligencing</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/vs.min.css" />
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/languages/csharp.min.js"></script>
+</head>
+<body>
+    <section id="app">
+        <h3>程序集：@Model.AssemblyName，命名空间：@Model.Namespace，类型：@Model.ClassName，可写属性数量约：@Model.PropertyNames.Length</h3>
+        <div style="color:blue">
+            目标变量：<input type="text" placeholder="dest" v-model="dest" />，来源变量：<input type="text" placeholder="source" v-model="source" />
+        </div>
+        <hr />
+        <strong>1.属性赋值：</strong>
+        <pre>
+<code class="csharp" v-html="assignmentStatement"></code>
+        </pre>
+        <strong>2.对象初始化：</strong>
+        <pre>
+<code class="csharp" v-html="initStatement"></code>
+        </pre>
+        <strong>3.JSON：</strong>
+        <pre>
+<code class="csharp">@Model.Json</code>
+        </pre>
+    </section>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                dest: 'dest',
+                source: 'source',
+                properties:@Model.PropertiesJson
+            },
+            computed: {
+                assignmentStatement: function () {
+                    let html = `@Model.ClassName ${this.dest} = new @(Model.ClassName)();\r\n\r\n`;
+
+                    this.properties.forEach((item, index)=>{
+                        html += `${this.dest}.${item} = ${this.source}.${item};\r\n`;
+                    })
+                    return html;
+                },
+                initStatement: function () {
+                    let html = `@Model.ClassName ${this.dest} = new @Model.ClassName
+{\r\n`;
+                    this.properties.forEach((item, index) => {
+                        html += `\t${item} = ${this.source}.${item}`;
+                        if (index < this.properties.length - 1) {
+                            html += `,`;
+                        }
+                        html += "\r\n";
+                    })
+                    html+=`};`;
+                    return html;
+                }
+            },
+            mounted: function () {
+                hljs.initHighlightingOnLoad();
+            }
+        })
+    </script>
+
+</body>
+
+</html>

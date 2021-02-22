@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="github:https://github.com/246850;wechat:1500212201;qq:390915549" />
+    <title>Coding Intelligencing</title>
+    <style>
+        a{text-decoration:none;}
+        a:hover{text-decoration:underline}
+    </style>
+</head>
+<body>
+    @foreach(var item in Model)
+    {
+        <h3>程序集：@item.AssemblyName，公开引用类型数量约：@item.TypeCount</h3>
+        @foreach(var type in item.Types)
+        {
+            <a href="@item.Path/__info__?assembly=@item.AssemblyName&type=@type.FullName" style="display:inline-block; margin-right:10px; margin-bottom:10px" title="@type.FullName" target="_blank">@type.Name</a>
+        }
+    }
+</body>
+</html>
