@@ -22,6 +22,11 @@ namespace Calamus.HostDemo
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();   // 清空自带的 console,debug logger
+                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);   // 配置文件 会覆盖此设置
                 }).UseNLog();
     }
 }
