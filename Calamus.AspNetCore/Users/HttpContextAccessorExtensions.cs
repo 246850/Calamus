@@ -23,8 +23,6 @@ namespace Calamus.AspNetCore.Users
             where TKey : struct
             where TUser:class, new()
         {
-            if (!httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) throw new CodeException(DefaultCode.UnAuthorizeError, "授权认证未通过");
-
             DefaultIdentityUser<TKey, TUser> user = new DefaultIdentityUser<TKey, TUser>();
             
             setup(user, httpContextAccessor.HttpContext.User);

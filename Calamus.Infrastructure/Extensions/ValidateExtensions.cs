@@ -99,5 +99,30 @@ namespace Calamus.Infrastructure.Extensions
         {
             return Regex.IsMatch(source, @"\s+");
         }
+        /// <summary>
+        /// 字符串长度区间检查 - 不包含空格
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="min">最小长度</param>
+        /// <param name="max">最大长度</param>
+        /// <returns></returns>
+        public static bool MustLengthNotSpace(this string source, int min, int max)
+        {
+            if (string.IsNullOrWhiteSpace(source)) return false;
+            return Regex.IsMatch(source, string.Format(@"^\S{{{0},{1}}}$", min, max));
+        }
+
+        /// <summary>
+        /// 字符串长度区间检查 - 可包含空格
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="min">最小长度</param>
+        /// <param name="max">最大长度</param>
+        /// <returns></returns>
+        public static bool MustLength(this string source, int min, int max)
+        {
+            if (string.IsNullOrWhiteSpace(source)) return false;
+            return Regex.IsMatch(source, string.Format("^(.|\r|\n){{{0},{1}}}$", min, max));
+        }
     }
 }

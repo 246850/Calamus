@@ -34,6 +34,17 @@ namespace Calamus.Result
             }
         }
         /// <summary>
+        /// 第几行
+        /// </summary>
+        [JsonIgnore]
+        public int RowNumber
+        {
+            get
+            {
+                return (Page - 1) * PageSize + 1;
+            }
+        }
+        /// <summary>
         /// 页容量大小数组
         /// </summary>
         [JsonIgnore]
